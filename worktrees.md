@@ -9,7 +9,7 @@ Problems
 <!-- pause -->
 <!-- column: 0 -->
 Overlapping build directory
-___
+===
 <!-- pause -->
 * plixus-apps r6 - r7 sdk mismatch
 
@@ -19,7 +19,7 @@ ___
 <!-- column: 1 -->
 
 Urgent bugfix / pull request reviews
-___
+===
 
 <!-- pause -->
 
@@ -39,6 +39,31 @@ rm -rf build_pc
 # resume work
 ```
 <!-- incremental_lists: false -->
+
+<!-- pause -->
+<!-- reset_layout -->
+```mermaid +render
+    gitGraph
+       commit
+       commit
+       branch master_6x
+       commit
+       commit tag: "v6.9.43"
+       branch bugfix/urgent_bug
+       checkout bugfix/urgent_bug
+       commit id: "fix: improve"
+       checkout master_6x
+       commit
+       checkout main
+       commit id: "SDK changed" tag: "sdk bump"
+       commit
+       branch feature/i_was_working_here
+       checkout feature/i_was_working_here
+       commit
+       commit
+       checkout main
+       commit
+```
 
 <!-- end_slide -->
 
@@ -84,12 +109,76 @@ ls -alh --color=always
 
 <!-- end_slide -->
 
+
+<!-- jump_to_middle -->
+Git Worktrees Usage
+===
+<!-- end_slide -->
+
+Goal
+---
+
+* Create a new working tree
+* That does not interfere with our current working tree
+
+```mermaid +render
+graph TD;
+    subgraph repo_container [classic repository]
+    repo[plixus-apps] --> gitdir@{ shape: documents, label: "/.git" };
+    gitdir --> gitworktreedir@{ shape: documents, label: "/.git/worktrees/our_worktree"}
+    end
+    worktree[../our_worktree] --> gitfile@{ shape: doc, label: "../our_worktree/.git" };
+    gitfile --> gitworktreedir;
+
+```
+
+<!-- end_slide -->
+
 Git Worktrees Usage
 ---
 
+# Now how?
+```bash +exec_replace
+git worktree -h
+```
+
+# Create a new worktree
+
 ```bash +exec
+cd ~/Developer/televic/plixus-apps
+/// rm -rf ../our_new_worktree
+/// git worktree prune
+/// git branch --delete new_branch >/dev/null 2>&1 
+git branch --create new_branch
+git worktree add --checkout ../our_new_worktree new_branch
+```
+<!-- pause -->
+
+## Result
+<!-- column_layout: [1, 1] -->
+
+<!-- column: 0 -->
+```bash +exec
+/// cd ~/Developer/televic/plixus-apps
+git worktree list
+```
+
+<!-- column: 1 -->
+```bash +exec
+/// cd ~/Developer/televic/plixus-apps
 git branch
 ```
+<!-- reset_layout -->
+<!-- pause -->
+## Consequence
+
+```bash +exec
+/// cd ~/Developer/televic/plixus-apps
+git switch new_branch
+```
+
+
+
 
 <!-- end_slide -->
 
