@@ -3,23 +3,26 @@ title: Git worktrees
 author: Aaron Hallaert
 ---
 
-Problems
+Problem
 ---
 <!-- column_layout: [1, 1] -->
 <!-- pause -->
 <!-- column: 0 -->
-Overlapping build directory
-===
+# Overlapping build directory
+
 <!-- pause -->
 * plixus-apps r6 - r7 sdk mismatch
 
 ![](build_failure.png)
 
+* buildroot / yocto
+* linux-tcs
+
 <!-- pause -->
 <!-- column: 1 -->
 
-Urgent bugfix / pull request reviews
-===
+# Urgent bugfix / pull request reviews
+
 
 <!-- pause -->
 
@@ -41,7 +44,14 @@ rm -rf build_pc
 <!-- incremental_lists: false -->
 
 <!-- pause -->
-<!-- reset_layout -->
+<!-- end_slide -->
+
+Problem
+---
+
+> [!CAUTION]
+> Polluted working tree due to context switching
+
 ```mermaid +render
     gitGraph
        commit
@@ -65,32 +75,24 @@ rm -rf build_pc
        commit
 ```
 
-<!-- end_slide -->
-
-
-Git Worktrees
----
-
-# RTFM
-
-```bash +exec +acquire_terminal
-man git-worktree
-```
+## Working tree
+A directory containing all files tracked by git
 
 <!-- end_slide -->
 
-Terminology
+
+Solution: Git Worktrees
 ---
 
-<!-- column_layout: [1, 1] -->
-
+# Terminology
+<!-- column_layout: [1, 2] -->
 <!-- column: 0 -->
-<!-- pause -->
-# Working tree
+## Working tree
 A directory containing all files tracked by git
 
 <!-- pause -->
-# .git directory 
+
+## .git directory 
 Holds the repository's metadata
 
 ```bash +exec_replace
@@ -99,7 +101,7 @@ ls .git --color=always
 
 <!-- pause -->
 <!-- column: 1 -->
-# Worktree
+##  Worktree
 Working tree + metadata
 * typically one main worktree
 
@@ -109,10 +111,13 @@ ls -alh --color=always
 
 <!-- end_slide -->
 
+The manual
+---
 
-<!-- jump_to_middle -->
-Git Worktrees Usage
-===
+```bash +exec +acquire_terminal
+man git-worktree
+```
+
 <!-- end_slide -->
 
 Goal
@@ -123,24 +128,31 @@ Goal
 
 ```mermaid +render
 graph TD;
-    subgraph repo_container [classic repository]
-    repo[plixus-apps] --> gitdir@{ shape: documents, label: "/.git" };
-    gitdir --> gitworktreedir@{ shape: documents, label: "/.git/worktrees/our_worktree"}
+    subgraph repo_container [main worktree]
+       repo[plixus-apps] --> gitdir@{ shape: documents, label: "/.git" };
+       gitdir --> gitworktreedir@{ shape: documents, label: "/.git/worktrees/our_worktree"}
     end
-    worktree[../our_worktree] --> gitfile@{ shape: doc, label: "../our_worktree/.git" };
-    gitfile --> gitworktreedir;
+    subgraph worktree_container [worktree]
+       worktree["(clean working tree) ../our_worktree"] --> gitfile@{ shape: doc, label: "../our_worktree/.git" };
+       gitfile --> gitworktreedir;
+    end
 
 ```
+
 
 <!-- end_slide -->
 
 Git Worktrees Usage
 ---
 
-# Now how?
+<!-- column_layout: [1,1]-->
+<!-- column: 1 -->
+# git worktree -h
 ```bash +exec_replace
 git worktree -h
 ```
+<!-- pause -->
+<!-- column: 0 -->
 
 # Create a new worktree
 
@@ -148,11 +160,17 @@ git worktree -h
 cd ~/Developer/televic/plixus-apps
 /// rm -rf ../our_new_worktree
 /// git worktree prune
-/// git branch --delete new_branch >/dev/null 2>&1 
-git branch --create new_branch
-git worktree add --checkout ../our_new_worktree new_branch
+/// git branch --delete our_new_worktree -f >/dev/null 2>&1 
+
+git worktree add -b our_new_worktree ../our_new_worktree release/plixus_6.9
 ```
-<!-- pause -->
+<!-- end_slide -->
+Git Worktrees Usage
+---
+
+```bash
+git worktree add -b our_new_worktree ../our_new_worktree release/plixus_6.9
+```
 
 ## Result
 <!-- column_layout: [1, 1] -->
@@ -166,20 +184,28 @@ git worktree list
 <!-- column: 1 -->
 ```bash +exec
 /// cd ~/Developer/televic/plixus-apps
-git branch
+git branch --color=always
+```
+
+<!-- pause -->
+```bash +exec
+/// cd ~/Developer/televic/plixus-apps
+git rev-parse release/plixus_6.9
+git rev-parse our_new_worktree
 ```
 <!-- reset_layout -->
 <!-- pause -->
-## Consequence
+<!-- end_slide -->
+Git Worktrees Usage
+---
+
+> [!CAUTION]
+> A branch can only be checked out in one worktree
 
 ```bash +exec
 /// cd ~/Developer/televic/plixus-apps
-git switch new_branch
+/// echo "`pwd`"
+/// echo ""
+git switch our_new_worktree
 ```
-
-
-
-
 <!-- end_slide -->
-
-# What are branches?
