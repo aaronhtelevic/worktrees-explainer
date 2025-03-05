@@ -126,6 +126,10 @@ Goal
 * Create a new working tree
 * That does not interfere with our current working tree
 
+# Linked worktree
+
+A worktree that links back to the original worktree / metadata.
+
 ```mermaid +render
 graph TD;
     subgraph repo_container [main worktree]
