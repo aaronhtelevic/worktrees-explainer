@@ -19,6 +19,12 @@ Problem
 * linux-tcs
 
 <!-- pause -->
+
+# Running build / integration tests
+
+* Can not checkout new code if build/tests are running
+
+<!-- pause -->
 <!-- column: 1 -->
 
 # Urgent bugfix / pull request reviews
