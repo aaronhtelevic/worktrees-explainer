@@ -162,6 +162,7 @@ git worktree -h
 
 ```bash +exec
 cd ~/Developer/televic/plixus-apps
+/// git worktree remove our_new_worktree
 /// rm -rf ../our_new_worktree
 /// git worktree prune
 /// git branch --delete our_new_worktree -f >/dev/null 2>&1 
