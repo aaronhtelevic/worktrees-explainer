@@ -166,14 +166,14 @@ cd ~/Developer/televic/plixus-apps
 /// git worktree prune
 /// git branch --delete our_new_worktree -f >/dev/null 2>&1 
 
-git worktree add -b our_new_worktree ../our_new_worktree release/plixus_6.9
+git worktree add -b our_new_worktree ../our_new_worktree master_6x
 ```
 <!-- end_slide -->
 Git Worktrees Usage
 ---
 
 ```bash
-git worktree add -b our_new_worktree ../our_new_worktree release/plixus_6.9
+git worktree add -b our_new_worktree ../our_new_worktree master_6x
 ```
 
 ## Result
@@ -194,7 +194,7 @@ git branch --color=always
 <!-- pause -->
 ```bash +exec
 /// cd ~/Developer/televic/plixus-apps
-git rev-parse release/plixus_6.9
+git rev-parse master_6x
 git rev-parse our_new_worktree
 ```
 <!-- reset_layout -->
@@ -213,3 +213,8 @@ Git Worktrees Usage
 git switch our_new_worktree
 ```
 <!-- end_slide -->
+
+<!-- jump_to_middle -->
+
+Hands-on
+---
