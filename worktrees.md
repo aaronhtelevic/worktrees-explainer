@@ -8,26 +8,65 @@ Problem
 <!-- column_layout: [1, 1] -->
 <!-- pause -->
 <!-- column: 0 -->
-# Overlapping build directory
+# Colliding build directory 💥 
 
 <!-- pause -->
-* plixus-apps r6 - r7 sdk mismatch
+* plixus-apps: switch between `master_6x` and `master`
+<!-- pause -->
+* Buildroot / Yocto
+* linux-tcs
+* ...
 
+<!-- pause -->
+
+## Clean build 🐢
+
+* plixus-apps takes 20 minutes to build
+
+## Failure ❌
 ![](build_failure.png)
 
-* buildroot / yocto
-* linux-tcs
 
-<!-- pause -->
+<!-- end_slide -->
+Problem
+---
 
-# Running build / integration tests
+# Colliding build directory 💥 
+# Directory-based IDE configuration 🪛
 
-* Can not checkout new code if build/tests are running
+* CMakeTools extension toolchain configuration
 
-<!-- pause -->
-<!-- column: 1 -->
 
-# Urgent bugfix / pull request reviews
+<!-- end_slide -->
+Problem
+---
+
+# Colliding build directory 💥 
+# Directory-based IDE configuration 🪛
+# Building / Running integration tests ⏳
+
+* Can not checkout other branch when build/tests are running
+
+<!-- end_slide -->
+Problem
+---
+
+# Colliding build directory 💥 
+# Directory-based IDE configuration 🪛
+# Building / Running integration tests ⏳
+# Compare 2 branches at the same time (not diff) 🔍
+
+* By switching branches you can not view code simultanuously
+
+<!-- end_slide -->
+Problem
+---
+
+# Colliding build directory 💥 
+# Directory-based IDE configuration 🪛
+# Building / Running integration tests ⏳
+# Compare 2 branches at the same time (not diff) 🔍
+# Urgent bugfix / Pull request reviews 🐛
 
 
 <!-- pause -->
@@ -123,16 +162,8 @@ The manual
 ```bash +exec +acquire_terminal
 man git-worktree
 ```
-
-<!-- end_slide -->
-
-Goal
----
-
-* Create a new working tree
-* That does not interfere with our current working tree
-
-# Linked worktree
+<!-- pause -->
+# Linked worktree 🔗
 
 A worktree that links back to the original worktree / metadata.
 
@@ -148,6 +179,19 @@ graph TD;
     end
 
 ```
+
+<!-- end_slide -->
+
+Goal
+---
+
+<!-- jump_to_middle -->
+
+* Work with multiple branches at the same time
+
+# In other words
+
+* Create a new working tree that does not interfere with our current working tree
 
 
 <!-- end_slide -->
@@ -168,19 +212,19 @@ git worktree -h
 
 ```bash +exec
 cd ~/Developer/televic/plixus-apps
-/// git worktree remove our_new_worktree
+/// git worktree remove our_new_worktree >/dev/null 2>&1 
 /// rm -rf ../our_new_worktree
 /// git worktree prune
-/// git branch --delete our_new_worktree -f >/dev/null 2>&1 
+/// git branch --delete branch_for_our_new_worktree -f >/dev/null 2>&1 
 
-git worktree add -b our_new_worktree ../our_new_worktree master_6x
+git worktree add -b branch_for_our_new_worktree ../our_new_worktree master_6x
 ```
 <!-- end_slide -->
 Git Worktrees Usage
 ---
 
 ```bash
-git worktree add -b our_new_worktree ../our_new_worktree master_6x
+git worktree add -b branch_for_our_new_worktree ../our_new_worktree master_6x
 ```
 
 ## Result
@@ -202,7 +246,7 @@ git branch --color=always
 ```bash +exec
 /// cd ~/Developer/televic/plixus-apps
 git rev-parse master_6x
-git rev-parse our_new_worktree
+git rev-parse branch_for_our_new_worktree
 ```
 <!-- reset_layout -->
 <!-- pause -->
@@ -217,11 +261,30 @@ Git Worktrees Usage
 /// cd ~/Developer/televic/plixus-apps
 /// echo "`pwd`"
 /// echo ""
-git switch our_new_worktree
+git switch branch_for_our_new_worktree
 ```
 <!-- end_slide -->
 
-<!-- jump_to_middle -->
-
 Hands-on
 ---
+
+# Colliding build directory
+<!-- pause -->
+# Simultanuous build
+
+<!-- pause -->
+# Inspect several versions (with intellisense)
+
+<!-- pause -->
+<!-- end_slide -->
+
+Advanced
+---
+
+# Tmux Integration
+
+- [twt-cli](https://github.com/aaronhallaert/twt-cli.git)
+- Review a PR
+
+
+<!-- end_slide -->
