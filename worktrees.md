@@ -297,8 +297,18 @@ Hands-on
 <!-- pause -->
 <!-- end_slide -->
 
-Advanced
+Enhance workflow
 ---
+
+# VSCode
+
+- Git worktree menu
+
+<!-- pause -->
+
+# Lazygit
+
+<!-- pause -->
 
 # Tmux Integration
 
