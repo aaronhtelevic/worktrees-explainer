@@ -8,10 +8,21 @@ Problem
 <!-- column_layout: [1, 1] -->
 <!-- pause -->
 <!-- column: 0 -->
-# Colliding build directory 💥 
+# Colliding build directory after switching branches 💥 
 
-<!-- pause -->
 * plixus-apps: switch between `master_6x` and `master`
+<!-- pause -->
+
+```bash {1-7|3,4,6,7}
+git stash
+git switch master_6x
+rm -rf build_pc # or mv
+build_scripts pc
+git switch master
+rm -rf build_pc
+build_scripts pc
+```
+
 <!-- pause -->
 * Buildroot / Yocto
 * linux-tcs
@@ -88,7 +99,15 @@ rm -rf build_pc
 ```
 <!-- incremental_lists: false -->
 
-<!-- pause -->
+<!-- end_slide -->
+Problem
+---
+
+# Colliding build directory 💥 
+# Directory-based IDE configuration 🪛
+# Building / Running integration tests ⏳
+# Compare 2 branches at the same time (not diff) 🔍
+# Urgent bugfix / Pull request reviews 🐛
 <!-- end_slide -->
 
 Problem
